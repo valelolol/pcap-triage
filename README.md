@@ -1,6 +1,10 @@
 # pcap-triage
 
+[![CI](https://github.com/valelolol/pcap-triage/actions/workflows/ci/badge.svg)](https://github.com/valelolol/pcap-triage/actions/workflows/ci)
+
 **Autonomous network-capture triage with a local LLM.**
+
+![pcap-triage demo](demo.gif)
 
 `pcap-triage` ingests a packet capture (pcap / pcapng), turns it into
 *flows* and *deterministic signals*, and asks a **local** LLM (zero external

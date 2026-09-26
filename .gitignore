@@ -3,5 +3,6 @@ __pycache__/
 .pytest_cache/
 *.pcap
 demo_combined.pcap
+demo_*.txt
 *.log
 .DS_Store
