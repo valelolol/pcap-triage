@@ -125,9 +125,20 @@ def make_benign_web(n=8, src="10.0.0.14", dst="142.250.180.206",
     return records
 
 
+def make_demo_combined(n_beacons=20, n_exfil=15, n_benign=8):
+    """Merge the three ground-truth builders into one combined capture:
+    a C2 beacon (4444), a high-entropy exfil (80), and benign web (443).
+    This is the capture shown in the README demo and the `demo.gif`."""
+    return (make_c2_beacon(n_beacons)
+            + make_exfil(n_exfil)
+            + make_benign_web(n_benign))
+
+
 if __name__ == "__main__":
     import sys
-    path = sys.argv[1] if len(sys.argv) > 1 else "synthetic_c2.pcap"
-    recs = make_c2_beacon()
+    args = sys.argv[1:]
+    mode = next((a for a in args if a.startswith("--")), None)
+    path = next((a for a in args if not a.startswith("--")), "synthetic.pcap")
+    recs = make_demo_combined() if mode == "--combined" else make_c2_beacon()
     write_classic_pcap(path, recs)
     print(f"wrote {path} ({len(recs)} packets)")

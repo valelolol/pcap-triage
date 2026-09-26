@@ -64,6 +64,27 @@ python main.py capture.pcap --json          # signals as JSON
 python main.py capture.pcap --top 10        # top-N flows by packet count
 ```
 
+### How to demo it
+
+The repo ships without the demo capture (binary captures are gitignored). Generate it, then run the three layers:
+
+```bash
+# 1. Regenerate the combined capture (C2 beacon + exfil + benign web)
+python pcap_writer.py demo_combined.pcap --combined
+
+# 2. Deterministic signals only — works offline, no model needed
+python main.py demo_combined.pcap --no-model
+
+# 3. Full run with the local LLM (model VM must be up at
+#    $PCAP_TRIAGE_MODEL_HOST; falls back to a deterministic note otherwise)
+python main.py demo_combined.pcap
+
+# 4. Prove it generalizes — the ground-truth harness
+python -m pytest tests/ -v
+```
+
+The GIF at the top of the README is this exact output, rendered with the two threat flows highlighted (C2 beacon amber, exfil red, benign left plain).
+
 ### Pointing at a model
 
 ```
